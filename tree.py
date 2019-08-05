@@ -10,15 +10,17 @@ class Node(object):
 
 
     def prnt(self, brd): 
-        print("_"*20) 
+        print("_"*10) 
         for row in range(3): 
             for col in range(3): 
                 print(brd[row][col], ' ',  flush=True, end='') 
             print('\n') 
-        print("_"*20) 
+        print("_"*10) 
 
     def create_child(node, num_children): 
-        boards = [0]*num_children 
+        child = [0 for _ in range (num_children)] # store nodes of children nodes 
+        boards = [0 for _ in range (num_children)] 
+
         for i in range(0, len(node.local)):  
             tmp_board = deepcopy(node.board) 
             row = node.local[i][0] 
@@ -27,10 +29,10 @@ class Node(object):
             tmp_board[row][col] = 'O' 
             boards[i] = tmp_board 
 
+            child[i] = Node(tmp_board, num_children) 
 
-            node.prnt(tmp_board) 
-            node.child = Node(node.board, num_children) 
-
+        for i in range(num_children): 
+            node.prnt(child[i].board) 
 
 def main(): 
     brd = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -45,8 +47,8 @@ def main():
     brd[1][2] = 'X' 
 
     locations = list() 
-
     children = 0 
+
     for row in range(3): 
         for col in range(3): 
             if type(brd[row][col]) == int: 
