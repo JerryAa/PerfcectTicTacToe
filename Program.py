@@ -45,8 +45,12 @@ class Player(Game):
 
 # raise ValueError("MOVE already made") 
 
+
         
     def isComplete(self): 
+        ''' 
+            check if board is complete 
+        '''
         for r in range(3):  
             for c in range(3):  
                 if self.board[r][c] == 'X' or self.board[r][c] == 'O': 
