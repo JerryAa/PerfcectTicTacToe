@@ -53,7 +53,7 @@ class Player(Game):
         '''
         for r in range(3):  
             for c in range(3):  
-                if self.board[r][c] == 'X' or self.board[r][c] == 'O': 
+                if type(self.board[r][c]) == int:
                     return False 
 
             
@@ -61,46 +61,46 @@ class Player(Game):
 
     def winner(self): 
         if self.board[0][0] == 'X' and self.board[0][1] == 'X' and self.board[0][2] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[0][0] == 'O' and self.board[0][1] == 'O' and self.board[0][2] == 'O':
-            return True 
+            return (True, 'O')
 
         if self.board[0][0] == 'X' and self.board[1][0] == 'X' and self.board[2][0] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[0][0] == 'O' and self.board[1][0] == 'O' and self.board[2][0] == 'O':
-            return True 
+            return (True, 'O')
 
         if self.board[0][0] == 'X' and self.board[1][1] == 'X' and self.board[2][2] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[0][0] == 'O' and self.board[1][1] == 'O' and self.board[2][2] == 'O':
-            return True 
+            return (True, 'O')
 
         if self.board[0][1] == 'X' and self.board[1][1] == 'X' and self.board[2][1] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[0][1] == 'O' and self.board[1][1] == 'O' and self.board[2][1] == 'O':
-            return True 
+            return (True, 'O')
 
         if self.board[0][2] == 'X' and self.board[1][2] == 'X' and self.board[2][2] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[0][2] == 'O' and self.board[1][2] == 'O' and self.board[2][2] == 'O':
-            return True 
+            return (True, 'O')
 
         if self.board[1][0] == 'X' and self.board[1][1] == 'X' and self.board[1][2] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[1][0] == 'O' and self.board[1][1] == 'O' and self.board[1][2] == 'O':
-            return True 
+            return (True, 'O')
 
         if self.board[2][0] == 'X' and self.board[1][1] == 'X' and self.board[0][2] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[2][0] == 'O' and self.board[1][1] == 'O' and self.board[0][2] == 'O':
-            return True 
+            return (True, 'O')
 
         if self.board[2][0] == 'X' and self.board[2][1] == 'X' and self.board[2][2] == 'X':
-            return True 
+            return (True, 'X')
         elif self.board[2][0] == 'O' and self.board[2][1] == 'O' and self.board[2][2] == 'O':
-            return True 
+            return (True, 'O')
 
-        return False  
+        return (False, None)
 
 
 def main(): 
@@ -124,13 +124,16 @@ def main():
 
     while True: 
         try: 
+            if g.isComplete(): 
+                break 
+
             print("Player 1 turn, enter a number in range (0-9)") 
             p1_move = int(input()) 
             g.move(p1_move, p1) 
             g.print() # print board 
 
-            if g.winner(): 
-                print("Player 1 WON!") 
+            if g.winner()[0]: 
+                print("Player 1 WON!", g.winner()[0]) 
                 break 
 
             print("Player 2 turn, enter a number in range (0-9)") 
@@ -138,7 +141,7 @@ def main():
             g.move(p2_move,p2) 
             g.print() 
 
-            if g.winner(): 
+            if g.winner()[0]: 
                 print("Player 2 WON!") 
                 break 
 
@@ -146,9 +149,6 @@ def main():
                 raise ValueError("Invalid Move") 
                 
 
-
-            if g.isComplete(): 
-                break 
         except ValueError: 
             print("invalid input") 
 
