@@ -15,7 +15,7 @@ class Node(object):
             print('\n') 
         print("_"*10) 
                 
-	def create_child(node, num_children):
+    def create_child(node, num_children):
         child = [0 for _ in range(num_children) ]  # store nodes of children nodes
         boards = [0 for _ in range(num_children)]
  
@@ -36,3 +36,47 @@ class Node(object):
                 else: 
                     child[i].score = 0 
                         
+    def winner(self): 
+        if self.board[0][0] == 'X' and self.board[0][1] == 'X' and self.board[0][2] == 'X':
+            return (True, 'X')
+        elif self.board[0][0] == 'O' and self.board[0][1] == 'O' and self.board[0][2] == 'O':
+            return (True, 'O')
+ 
+        if self.board[0][0] == 'X' and self.board[1][0] == 'X' and self.board[2][0] == 'X':
+            return (True, 'X')
+        elif self.board[0][0] == 'O' and self.board[1][0] == 'O' and self.board[2][0] == 'O':
+            return (True, 'O')
+ 
+        if self.board[0][0] == 'X' and self.board[1][1] == 'X' and self.board[2][2] == 'X':
+            return (True, 'X')
+        elif self.board[0][0] == 'O' and self.board[1][1] == 'O' and self.board[2][2] == 'O':
+            return (True, 'O')
+ 
+        if self.board[0][1] == 'X' and self.board[1][1] == 'X' and self.board[2][1] == 'X':
+            return (True, 'X')
+        elif self.board[0][1] == 'O' and self.board[1][1] == 'O' and self.board[2][1] == 'O':
+            return (True, 'O')
+ 
+        if self.board[0][2] == 'X' and self.board[1][2] == 'X' and self.board[2][2] == 'X':
+            return (True, 'X')
+        elif self.board[0][2] == 'O' and self.board[1][2] == 'O' and self.board[2][2] == 'O':
+            return (True, 'O')
+ 
+        if self.board[1][0] == 'X' and self.board[1][1] == 'X' and self.board[1][2] == 'X':
+            return (True, 'X')
+        elif self.board[1][0] == 'O' and self.board[1][1] == 'O' and self.board[1][2] == 'O':
+            return (True, 'O')
+ 
+        if self.board[2][0] == 'X' and self.board[1][1] == 'X' and self.board[0][2] == 'X':
+            return (True, 'X')
+        elif self.board[2][0] == 'O' and self.board[1][1] == 'O' and self.board[0][2] == 'O':
+            return (True, 'O')
+ 
+        if self.board[2][0] == 'X' and self.board[2][1] == 'X' and self.board[2][2] == 'X':
+            return (True, 'X')
+        elif self.board[2][0] == 'O' and self.board[2][1] == 'O' and self.board[2][2] == 'O':
+            return (True, 'O')
+ 
+        return (False, None)
+ 
+
