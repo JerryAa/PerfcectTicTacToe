@@ -18,6 +18,17 @@ class Node(object):
         print("_"*10) 
 
     def create_child(node, num_children): 
+        ''' 
+            don't score until "Win" 
+            if terminal_state(WIN) 
+                score = 10 
+                
+            if terminal_state(LOSS) 
+                score = -10 
+
+            if terminal_state(DRAW) 
+                score = 0 
+        ''' 
         child = [0 for _ in range (num_children)] # store nodes of children nodes 
         boards = [0 for _ in range (num_children)] 
 
@@ -28,7 +39,6 @@ class Node(object):
 
             tmp_board[row][col] = 'O' 
             boards[i] = tmp_board 
-
             child[i] = Node(tmp_board, num_children) 
 
         for i in range(num_children): 
@@ -56,9 +66,7 @@ def main():
                 locations.append(pairs) 
                 children += 1 
 
-
     n = Node(brd, locations) 
-# NODE_LIST / NODE ARRAY 
     n.create_child(children) 
 
 if __name__ == '__main__': 
