@@ -1,16 +1,10 @@
 
-''' 
-loop using how many empty spots there are 
-    generate game state 
-        if O's turn 
-            get currentState of board 
-                create copy of currentState and modify it with potential spots, (1 move per turn) 
-                    return futureState 
-                     
+# goal is to implement min-max so that computer is unbeatable 
 
-    CREATE TREE WITH MORE THAN ONE CHILDREN? 
 
-''' 
+
+import tree 
+
 class Game(object): 
     def __init__(self, player1, player2): 
         self.player1 = player1 
@@ -46,53 +40,70 @@ class Game(object):
 
 class State(Game): 
 
-    
     def __init__(self, currentState): 
         self.possible_moves = list() 
         self.currentState = currentState 
         self.count = 0 # count open spots (for generating # of nodes)    
-        self.node = Node(currentState) 
-
 
     def children(self): 
         count = 0 
         for row in range(3): 
             for col in range(3): 
-                node = Node(self.currentState) 
-
-                elmnt = self.currentState[row][col] 
-                if type(elmnt) == int: 
-                    self.possible_moves.append(elmnt) 
-                    node.insert(self.currentState,row, col)  
+                if type(self.currentState[row][col])  == int: 
+                    pairs = (row, col)
+                    self.possible_moves.append(pairs) 
                     count += 1 
             
+        self.node = Node(self.currentState, self.possible_moves) 
+        self.node.create_child(count) 
         self.count = count 
+
         return self.count 
-
-class Node(State): 
-    def __init__(self, state): 
-        self.child = None 
-        self.state = state  
-        self.left = None 
-        self.right = None 
-        
-
-    def insert(node, board, row, col): 
-        print(board) 
-        if node == None: 
-            if node.left == None: 
-                board[row][col] = 'O' 
-                node.left = Node(board)  
-            elif node.right == None: 
-                board[row][col] = 'O' 
-                node.right = Node(board)  
-            else: 
-                node = insert(node, board, row,col)
                 
-            
-        # how to insert to Tree 
-         
-            
+from copy import deepcopy                                                                                                                                               
+                
+class Node(object): 
+    def __init__(self, board, local):
+        self.board = board 
+        self.child = None 
+        self.local = local  
+                
+             
+    def prnt(self, brd): 
+        print("_"*10) 
+        for row in range(3): 
+            for col in range(3): 
+                print(brd[row][col], ' ',  flush=True, end='') 
+            print('\n') 
+        print("_"*10) 
+                
+    def create_child(node, num_children): 
+        '''  
+            don't score until "Win" 
+            if terminal_state(WIN) 
+                score = 10 
+                
+            if terminal_state(LOSS) 
+                score = -10 
+                
+            if terminal_state(DRAW) 
+                score = 0 
+        '''  
+        child = [0 for _ in range (num_children)] # store nodes of children nodes 
+        boards = [0 for _ in range (num_children)] 
+                
+        for i in range(0, len(node.local)):  
+            tmp_board = deepcopy(node.board) 
+            row = node.local[i][0] 
+            col = node.local[i][1] 
+                
+            tmp_board[row][col] = 'O' 
+            boards[i] = tmp_board 
+            child[i] = Node(tmp_board, num_children) 
+                
+        for i in range(num_children): 
+            node.prnt(child[i].board) 
+                
 
 
 class Player(Game): 
@@ -131,7 +142,6 @@ class Player(Game):
         s.children() 
 
 # raise ValueError("MOVE already made") 
-        
 
         
     def isComplete(self): 
@@ -244,4 +254,3 @@ if __name__ == '__main__':
 
 
 
-# goal is to implement min-max so that computer is unbeatable 
