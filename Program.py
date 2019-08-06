@@ -36,15 +36,12 @@ class Player(Game):
                 self.player2_moves.append(pos) 
 
                 
-        print(self.player2_moves.append(pos)) 
-
-
+        self.player2_moves.append(pos)  
 
         s = State(self.board) 
         s.children() 
 
 # raise ValueError("MOVE already made") 
-
 
         
     def isComplete(self): 
@@ -133,7 +130,7 @@ def main():
             g.print() # print board 
 
             if g.winner()[0]: 
-                print("Player 1 WON!", g.winner()[0]) 
+                print("Player 1 WON!") 
                 break 
 
             print("Player 2 turn, enter a number in range (0-9)") 

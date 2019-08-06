@@ -1,11 +1,16 @@
+from math import inf 
 from copy import deepcopy 
                 
 class Node(object): 
     def __init__(self, board, local):
-        self.board = board 
-        self.child = None 
-        self.local = local  
-                
+        self.board = board
+        self.child = None
+        self.local = local
+        self.depth = 0
+        self.score = -inf # 10 win, -10 loose, 0 tie
+
+        self.terminal_node = False
+
              
     def prnt(self, brd): 
         print("_"*10) 
