@@ -20,7 +20,7 @@ class Node(object):
             print('\n') 
         print("_"*10) 
                 
-    def create_child(node, num_children):
+    def create_child(node, num_children, maxPlayer):
         child = [0 for _ in range(num_children) ]  # store nodes of children nodes
         boards = [0 for _ in range(num_children)]
  
@@ -29,19 +29,21 @@ class Node(object):
             row = node.local[i][0]
             col = node.local[i][1]
  
-            tmp_board[row][col] = 'O' 
-            boards[i] = tmp_board
-            child[i] = Node(tmp_board, num_children)
+
+            if maxPlayer == 'O': 
+                tmp_board[row][col] = 'O' 
+                boards[i] = tmp_board
+                child[i] = Node(tmp_board, num_children)
+                #  child[i].create_child(num_children -1, 'X')
+
+            else: # 'X' 
+                tmp_board[row][col] = 'X' 
+                boards[i] = tmp_board
+                child[i] = Node(tmp_board, num_children)
+                #  child[i].create_child(num_children -1, 'O')
+                
 
                 
-            if child[i].winner()[0]: 
-                if child[i].winner()[0] and child[i].winner()[1] == 'O': 
-                    child[i].score = 10  
-                elif child[i].winner()[0] and child[i].winner()[1] == 'X': 
-                    child[i].score = -10 
-                else: 
-                    child[i].score = 0 
-
             node.set_score(child, i)
             node.depth += 1 
 
