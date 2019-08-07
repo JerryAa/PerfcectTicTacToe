@@ -1,13 +1,10 @@
 
 # goal is to implement min-max so that computer is unbeatable 
 
-
-
 from tree import Node 
 from game import Game 
 from state import State 
 from copy import deepcopy                                                                                                                                               
-
 class Player(Game): 
     def __init__(self, p1 ,p2): 
         self.player1 = p1 
@@ -40,10 +37,10 @@ class Player(Game):
 
         s = State(self.board) 
         s.children() 
-
+        
+        
 # raise ValueError("MOVE already made") 
 
-        
     def isComplete(self): 
         ''' 
             check if board is complete 
@@ -124,8 +121,7 @@ def main():
             if g.isComplete(): 
                 break 
 
-            print("Player 1 turn, enter a number in range (0-9)") 
-            p1_move = int(input()) 
+            p1_move = int(input("Player 1 turn, enter a number in range (0-9): ") )
             g.move(p1_move, p1) 
             g.print() # print board 
 
@@ -133,8 +129,7 @@ def main():
                 print("Player 1 WON!") 
                 break 
 
-            print("Player 2 turn, enter a number in range (0-9)") 
-            p2_move = int(input()) 
+            p2_move = int(input("Player 2 turn, enter a number in range (0-9): ")) 
             g.move(p2_move,p2) 
             g.print() 
 
