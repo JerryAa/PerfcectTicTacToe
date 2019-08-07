@@ -33,7 +33,6 @@ class Node(object):
             boards[i] = tmp_board
             child[i] = Node(tmp_board, num_children)
 
-            node.minimax(child[i].depth, True)
                 
             if child[i].winner()[0]: 
                 if child[i].winner()[0] and child[i].winner()[1] == 'O': 
@@ -43,12 +42,23 @@ class Node(object):
                 else: 
                     child[i].score = 0 
 
+            node.set_score(child, i)
             node.depth += 1 
 
 
+
         for i in range(num_children):
-            print(child[i].score) 
+            print(f'Score for child #{i} {child[i].score}') 
             node.prnt(child[i].board)
+
+    def set_score(self, child, i):
+            if child[i].winner()[0]: 
+                if child[i].winner()[0] and child[i].winner()[1] == 'O':
+                    child[i].score = 10 
+                elif child[i].winner()[0] and child[i].winner()[1] == 'X':
+                    child[i].score = -10 
+                else:   
+                    child[i].score = 0
                         
     def winner(self): 
         if self.board[0][0] == 'X' and self.board[0][1] == 'X' and self.board[0][2] == 'X':
