@@ -32,6 +32,8 @@ class Node(object):
             tmp_board[row][col] = 'O' 
             boards[i] = tmp_board
             child[i] = Node(tmp_board, num_children)
+
+            node.minimax(child[i].depth, True)
                 
             if child[i].winner()[0]: 
                 if child[i].winner()[0] and child[i].winner()[1] == 'O': 
@@ -40,6 +42,13 @@ class Node(object):
                     child[i].score = -10 
                 else: 
                     child[i].score = 0 
+
+            node.depth += 1 
+
+
+        for i in range(num_children):
+            print(child[i].score) 
+            node.prnt(child[i].board)
                         
     def winner(self): 
         if self.board[0][0] == 'X' and self.board[0][1] == 'X' and self.board[0][2] == 'X':
@@ -85,3 +94,19 @@ class Node(object):
         return (False, None)
  
 
+
+    def minimax(self, depth, maximizingPlayer):
+        if depth == 0 or self.isComplete():
+            return self.score
+
+        if maximizingPlayer:
+            value = inf
+            for c in self.child:
+                value = max(value, minimax(c, depth -1, False))
+            return value
+
+        else: # minimizing player
+            value = -inf
+            for c in self.child:
+                value = min(value, minimax(c, depth -1, True))
+            return value
