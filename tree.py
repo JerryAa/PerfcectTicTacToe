@@ -34,6 +34,7 @@ class Node(object):
                 tmp_board[row][col] = 'O' 
                 boards[i] = tmp_board
                 child[i] = Node(tmp_board, num_children)
+
                 #  child[i].create_child(num_children -1, 'X')
 
             else: # 'X' 
@@ -42,11 +43,8 @@ class Node(object):
                 child[i] = Node(tmp_board, num_children)
                 #  child[i].create_child(num_children -1, 'O')
                 
-
-                
             node.set_score(child, i)
             node.depth += 1 
-
 
 
         for i in range(num_children):

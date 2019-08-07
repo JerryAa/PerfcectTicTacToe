@@ -13,7 +13,6 @@ class Player(Game):
         self.player1_moves = list() 
         self.player2_moves = list()  
 
-
     def move(self,pos, player): 
         def update(position, player): 
             row = self.num_2dlist[position][0] 
@@ -36,7 +35,8 @@ class Player(Game):
         self.player2_moves.append(pos)  
 
         s = State(self.board) 
-        s.children() 
+        s.children('O') # maxPlayer
+# watch  
         
         
 # raise ValueError("MOVE already made") 

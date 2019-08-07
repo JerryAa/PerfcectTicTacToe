@@ -7,7 +7,7 @@ class State(Game):
         self.currentState = currentState 
         self.count = 0 # count open spots (for generating # of nodes)    
 
-    def children(self): 
+    def children(self, maxiPlayer): 
         count = 0 
         for row in range(3): 
             for col in range(3): 
@@ -17,7 +17,13 @@ class State(Game):
                     count += 1 
             
         self.node = Node(self.currentState, self.possible_moves) 
-        self.node.create_child(count) 
-        self.count = count 
+        if maxiPlayer == 'O': 
+            self.node.create_child(count, 'O') 
+            self.count = count 
+
+        else: 
+            self.node.create_child(count, 'X') 
+            self.count = count 
+            
 
         return self.count 
