@@ -36,7 +36,6 @@ class Player(Game):
 
         s = State(self.board) 
         s.children('O') # maxPlayer
-# watch  
         
         
 # raise ValueError("MOVE already made") 
@@ -115,13 +114,14 @@ def main():
 
     g = Player(p1, p2) 
     g.print() # print inital board 
+    mvs = 9 # total number of moves that can be made 
 
     while True: 
         try: 
-            if g.isComplete(): 
-                break 
-
             p1_move = int(input("Player 1 turn, enter a number in range (0-9): ") )
+            if p1_move > 9 or p1_move < 0: 
+                raise Exception("Invalid Move!") 
+                
             g.move(p1_move, p1) 
             g.print() # print board 
 
@@ -130,6 +130,9 @@ def main():
                 break 
 
             p2_move = int(input("Player 2 turn, enter a number in range (0-9): ")) 
+            if p2_move > 9 or p2_move < 0: 
+                raise Exception("Invalid Move!") 
+                
             g.move(p2_move,p2) 
             g.print() 
 
@@ -137,9 +140,6 @@ def main():
                 print("Player 2 WON!") 
                 break 
 
-            if p1_move > 9 or p2_move > 9: 
-                raise ValueError("Invalid Move") 
-                
 
         except ValueError: 
             print("invalid input") 
