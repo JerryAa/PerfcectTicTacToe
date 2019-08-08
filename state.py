@@ -17,12 +17,13 @@ class State(Game):
                     count += 1 
             
         self.node = Node(self.currentState, self.possible_moves) 
+
         if maxiPlayer == 'O': 
-            self.node.create_child(count, 'O') 
+            self.node.create_child('O') 
             self.count = count 
 
         else: 
-            self.node.create_child(count, 'X') 
+            self.node.create_child('X') 
             self.count = count 
             
 
