@@ -19,37 +19,46 @@ class Node(object):
                 print(brd[row][col], ' ',  flush=True, end='') 
             print('\n') 
         print("_"*10) 
-                
-    def create_child(node, num_children, maxPlayer):
+           
+    def openspots(node): 
+        children = 0 
+        node.local = list() 
+        for row in range(3):
+            for col in range(3):
+                if type(node.board[row][col]) == int:
+                    pairs = (row, col)
+                    node.local.append(pairs)
+                    children += 1
+
+        return children 
+
+    def create_child(node, maxPlayer):
+        num_children = node.openspots()
         child = [0 for _ in range(num_children) ]  # store nodes of children nodes
         boards = [0 for _ in range(num_children)]
  
         for i in range(0, len(node.local)):
+           
             tmp_board = deepcopy(node.board)
             row = node.local[i][0]
             col = node.local[i][1]
  
-
+ 
             if maxPlayer == 'O': 
-                tmp_board[row][col] = 'O' 
+                tmp_board[row][col] = 'O'
                 boards[i] = tmp_board
                 child[i] = Node(tmp_board, num_children)
-
-                #  child[i].create_child(num_children -1, 'X')
-
+ 
             else: # 'X' 
-                tmp_board[row][col] = 'X' 
+                tmp_board[row][col] = 'X'
                 boards[i] = tmp_board
                 child[i] = Node(tmp_board, num_children)
-                #  child[i].create_child(num_children -1, 'O')
+ 
                 
-            node.set_score(child, i)
+            node.set_score(child, i) 
             node.depth += 1 
-
-
-        for i in range(num_children):
-            print(f'Score for child #{i} {child[i].score}') 
-            node.prnt(child[i].board)
+ 
+        return child 
 
     def set_score(self, child, i):
             if child[i].winner()[0]: 
