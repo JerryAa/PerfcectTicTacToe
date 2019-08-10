@@ -10,7 +10,15 @@ class Node(object):
         self.score = -inf # 10 win, -10 loose, 0 tie
 
         self.terminal_node = False
-
+    def isComplete(self):
+        '''          
+            return true if board is a terminal 
+        '''          
+        for r in range(3):
+            for c in range(3):
+                if type(self.board[r][c]) == int:
+                    return False
+        return True  
              
     def prnt(self, brd): 
         print("_"*10) 
