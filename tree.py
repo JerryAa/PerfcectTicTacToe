@@ -55,19 +55,22 @@ class Node(object):
                 child[i] = Node(tmp_board, num_children)
  
                 
-            node.set_score(child, i) 
+            child[i].set_score() 
             node.depth += 1 
  
         return child 
 
-    def set_score(self, child, i):
-            if child[i].winner()[0]: 
-                if child[i].winner()[0] and child[i].winner()[1] == 'O':
-                    child[i].score = 10 
-                elif child[i].winner()[0] and child[i].winner()[1] == 'X':
-                    child[i].score = -10 
-                else:   
-                    child[i].score = 0
+    def set_score(self): 
+        if self.winner()[0]: 
+            if self.winner()[0] and self.winner()[1] == 'O': 
+                self.score = 10 # win 
+            elif self.winner()[0] and self.winner()[1] == 'X': 
+                self.score = -10 # loss  
+                      
+        if self.isComplete(): 
+            if not self.winner()[0]: 
+                self.score = 0 # draw 
+
                         
     def winner(self): 
         if self.board[0][0] == 'X' and self.board[0][1] == 'X' and self.board[0][2] == 'X':
