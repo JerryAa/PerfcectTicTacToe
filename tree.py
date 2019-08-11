@@ -70,9 +70,9 @@ class Node(object):
 
     def set_score(self): 
         if self.winner()[0]: 
-            if self.winner()[0] and self.winner()[1] == 'O': 
+            if self.winner()[1] == {'O'}: 
                 self.score = 10 # win 
-            elif self.winner()[0] and self.winner()[1] == 'X': 
+            elif self.winner()[1] == {'X'}: 
                 self.score = -10 # loss  
                       
         if self.isComplete(): 
