@@ -53,46 +53,36 @@ class Player(Game):
         return True  
 
     def winner(self): 
-        if self.board[0][0] == 'X' and self.board[0][1] == 'X' and self.board[0][2] == 'X':
-            return (True, 'X')
-        elif self.board[0][0] == 'O' and self.board[0][1] == 'O' and self.board[0][2] == 'O':
-            return (True, 'O')
-
-        if self.board[0][0] == 'X' and self.board[1][0] == 'X' and self.board[2][0] == 'X':
-            return (True, 'X')
-        elif self.board[0][0] == 'O' and self.board[1][0] == 'O' and self.board[2][0] == 'O':
-            return (True, 'O')
-
-        if self.board[0][0] == 'X' and self.board[1][1] == 'X' and self.board[2][2] == 'X':
-            return (True, 'X')
-        elif self.board[0][0] == 'O' and self.board[1][1] == 'O' and self.board[2][2] == 'O':
-            return (True, 'O')
-
-        if self.board[0][1] == 'X' and self.board[1][1] == 'X' and self.board[2][1] == 'X':
-            return (True, 'X')
-        elif self.board[0][1] == 'O' and self.board[1][1] == 'O' and self.board[2][1] == 'O':
-            return (True, 'O')
-
-        if self.board[0][2] == 'X' and self.board[1][2] == 'X' and self.board[2][2] == 'X':
-            return (True, 'X')
-        elif self.board[0][2] == 'O' and self.board[1][2] == 'O' and self.board[2][2] == 'O':
-            return (True, 'O')
-
-        if self.board[1][0] == 'X' and self.board[1][1] == 'X' and self.board[1][2] == 'X':
-            return (True, 'X')
-        elif self.board[1][0] == 'O' and self.board[1][1] == 'O' and self.board[1][2] == 'O':
-            return (True, 'O')
-
-        if self.board[2][0] == 'X' and self.board[1][1] == 'X' and self.board[0][2] == 'X':
-            return (True, 'X')
-        elif self.board[2][0] == 'O' and self.board[1][1] == 'O' and self.board[0][2] == 'O':
-            return (True, 'O')
-
-        if self.board[2][0] == 'X' and self.board[2][1] == 'X' and self.board[2][2] == 'X':
-            return (True, 'X')
-        elif self.board[2][0] == 'O' and self.board[2][1] == 'O' and self.board[2][2] == 'O':
-            return (True, 'O')
-
+        for row in self.board: 
+            if len(set(row)) == 3:  
+                continue 
+            elif len(set(row)) == 1:  
+                return (True, set(row)) 
+ 
+        diag_1 = (self.board[0][0], self.board[1][0], self.board[2][0]) 
+        if len(set(diag_1)) == 1:  
+            return (True, set(diag_1)) 
+     
+        diag_2 = (self.board[0][0], self.board[1][0], self.board[2][0]) 
+        if len(set(diag_2)) == 1:  
+            return (True, set(diag_2)) 
+     
+        diag_3 = (self.board[0][0], self.board[1][1], self.board[2][2])
+        if len(set(diag_3)) == 1:  
+            return (True, set(diag_3)) 
+     
+        diag_4 = (self.board[0][1], self.board[1][1], self.board[2][1])
+        if len(set(diag_4)) == 1:  
+            return (True, set(diag_4)) 
+     
+        diag_5 = (self.board[0][2], self.board[1][2], self.board[2][2])
+        if len(set(diag_5)) == 1:  
+            return (True, set(diag_5)) 
+     
+        diag_6 = (self.board[2][0], self.board[1][1], self.board[0][2])
+        if len(set(diag_6)) == 1:  
+            return (True, set(diag_6)) 
+ 
         return (False, None)
 
 
@@ -129,6 +119,10 @@ def main():
                 print("Player 1 WON!") 
                 break 
 
+            if g.isComplete(): 
+                print("DRAW") 
+                break 
+
             p2_move = int(input("Player 2 turn, enter a number in range (0-9): ")) 
             if p2_move > 9 or p2_move < 0: 
                 raise Exception("Invalid Move!") 
@@ -138,6 +132,10 @@ def main():
 
             if g.winner()[0]: 
                 print("Player 2 WON!") 
+                break 
+
+            if g.isComplete(): 
+                print("DRAW") 
                 break 
 
 
