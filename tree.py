@@ -27,46 +27,48 @@ class Node(object):
                 print(brd[row][col], ' ',  flush=True, end='') 
             print('\n') 
         print("_"*10) 
-           
+
     def openspots(node): 
         children = 0 
-        node.local = list() 
+        node.local = dict() 
         for row in range(3):
             for col in range(3):
-                if type(node.board[row][col]) == int:
-                    pairs = (row, col)
-                    node.local.append(pairs)
-                    children += 1
-
-        return children 
-
-    def create_child(node, maxPlayer):
-        num_children = node.openspots()
+                elmnt = node.board[row][col]
+                if type(elmnt) == int: 
+                    node.local[elmnt] = (row,col) 
+        
+        return node.local  
+           
+    def create_child(node, turn):
+        num_children = len(node.openspots()) 
+        node.num = num_children
         child = [0 for _ in range(num_children) ]  # store nodes of children nodes
         boards = [0 for _ in range(num_children)]
- 
-        for i in range(0, len(node.local)):
-           
+        idx = 0 
+        
+        for k in node.local.keys(): 
+            row = node.local[k][0] 
+            col = node.local[k][1] 
             tmp_board = deepcopy(node.board)
-            row = node.local[i][0]
-            col = node.local[i][1]
- 
- 
-            if maxPlayer == 'O': 
-                tmp_board[row][col] = 'O'
-                boards[i] = tmp_board
-                child[i] = Node(tmp_board, num_children)
- 
-            else: # 'X' 
-                tmp_board[row][col] = 'X'
-                boards[i] = tmp_board
-                child[i] = Node(tmp_board, num_children)
- 
+        
+            if turn == 'X': 
+                if node.winner()[0] == False or node.isComplete() == False : # if winner is found or board is complete don't produce more child nodes 
+                    tmp_board[row][col] = 'X' 
+        
+            else: 
+                if node.winner()[0] == False or node.isComplete() == False : # if winner is found or board is complete don't produce more child nodes 
+                    tmp_board[row][col] = 'O' 
+                    
+            boards[idx] = tmp_board
+        
+            child[idx] = Node(tmp_board, num_children) 
+            child[idx].set_score() 
                 
-            child[i].set_score() 
-            node.depth += 1 
- 
-        return child 
+            idx += 1 
+            node.depth+= 1 
+        
+        node.child = child 
+        return child            
 
     def set_score(self): 
         if self.winner()[0]: 
@@ -113,7 +115,6 @@ class Node(object):
             
         return (False, None)
  
-
 
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self.isComplete():
