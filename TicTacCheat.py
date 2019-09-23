@@ -21,27 +21,15 @@ class BuildBoard(object):
         self.o_turn.select()
         self.o_turn.grid(row=6, column=12)
 
-
         self.x_turn = tk.Radiobutton(
             self.turn, state='disabled', text='X', variable=self.whose_turn, value=0, bg ='medium blue', font=("Times", 20)) 
         self.x_turn.deselect()
         self.x_turn.grid(row=5, column=12)
 
-
         self.button = list() 
 
         self.build_grid()
-
-        self.close = tk.Button(self.root, text='Close', command=self.root.quit)
-        self.solve = tk.Button(self.root, text='Solve',
-                               command=self.solve_button)
-        self.reset = tk.Button(self.root, text='Reset',
-                               command=self.reset_button)
-
-        self.close.place(relx=0.6, rely=0.5, anchor='w')
-        self.solve.place(relx=0.7, rely=0.5, anchor='w')
-        self.reset.place(relx=0.8, rely=0.5, anchor='w')
-
+        self.setup_buttons() 
         self.root.mainloop()
 
          
@@ -88,40 +76,21 @@ class BuildBoard(object):
 
         canvas = tk.Canvas(win, width=900, height=900)
         canvas.config(bg='white')
-        canvas.pack()
-
-
-        x = 40
-        y = 40
-        square = {'x': x, 'y':y, 'width':432 + x, 'length':432 + y}  
+# id = C.create_line ( x0, y0, x1, y1, ..., xn, yn, option, ... )
+        x = 0
+        y = 0
+        square = {'x': x, 'y':y, 'width':372 + x, 'length':372 + y} 
+# square = {'x': x, 'y':y, 'width':120 + x, 'length':120 + y} 
          
-        quad_len = square['length'] - y 
+        quad_len = square['length'] - y
         quad_len /= 3 
          
-        quadrants = [None]*9
-        font_size = 70
+        quadrant = [None]*9 # coordinates for each quadrant 
+        q = [None]*9  # x,y pairs
+
+        font_size = int(quad_len/2) 
          
-        quadrants[0] = (square['x']+ (quad_len//2), font_size ) 
-        quadrants[1] = (quad_len + quadrants[0][0] , font_size )
-        quadrants[2] = (quad_len + quadrants[1][0] , font_size )
-        quadrants[3] = (quadrants[0][0] , font_size + 100 )
-        quadrants[4] = (quadrants[3][0] + quad_len , font_size + 100 )
-        quadrants[5] = (quadrants[4][0] + quad_len , font_size + 100 )
-        quadrants[6] = (quadrants[0][0] , font_size + 200)
-        quadrants[7] = (quadrants[6][0] + quad_len, font_size + 200)
-        quadrants[8] = (quadrants[7][0] + quad_len, font_size + 200)
-         
-        ''' 
-        canvas.create_text(quadrants[0], text='X', fill='blue', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[1], text='O', fill='red', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[2], text='X', fill='blue', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[3], text='O', fill='red', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[4], text='X', fill='blue', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[5], text='O', fill='red', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[6], text='X', fill='blue', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[7], text='O', fill='red', font=('times bold', font_size)) 
-        canvas.create_text(quadrants[8], text='X', fill='blue', font=('times bold', font_size)) 
-        ''' 
+        quadrant[0] = (square['x']+ (quad_len//2), font_size ) 
          
          
         canvas.create_rectangle(square['x'], square['y'], square['width'], square['length'], state='disabled') 
@@ -131,9 +100,61 @@ class BuildBoard(object):
         canvas.create_line(square['x'], quad_len + square['y'] , square['width'], quad_len + square['y'], fill="black", width=4)  # line 3 
         canvas.create_line(square['x'], quad_len * 2 + square['y'] , square['width'], quad_len * 2 + square['y'], fill="black", width=4)  # line 4 
          
+        quadrant[0] = (0, quad_len, quad_len, quad_len)
+        q[0] = (quadrant[0][2] - font_size, quadrant[0][2] - font_size)                                                                                                         
+               
+        quadrant[1] = (quad_len, quad_len, quad_len*2, quad_len) 
+        q[1] = (quadrant[1][2] - font_size, font_size) 
+               
+        quadrant[2] = (quad_len*2, quad_len, quad_len*3, quad_len) 
+        q[2] = (quadrant[2][2] - font_size, font_size) 
+               
+        quadrant[3] = (0, quad_len*2, quad_len, quad_len*2) 
+        q[3] = (quadrant[3][2] - font_size, quadrant[3][1] - font_size) 
+               
+        quadrant[4] = (quad_len, quad_len*2, quad_len*2, quad_len*2) 
+        q[4] = (quadrant[4][2] - font_size, quadrant[4][2] - font_size) 
+               
+        quadrant[5] = (quad_len*2, quad_len*2, quad_len*3, quad_len*2) 
+        q[5] = (quadrant[5][2] - font_size, quadrant[5][3] - font_size) 
+               
+        quadrant[6] = (0, quad_len*3, quad_len, quad_len*3) 
+        q[6] = (quadrant[6][2] - font_size, quadrant[6][3] - font_size) 
+               
+        quadrant[7] = (quad_len, quad_len*3, quad_len*2, quad_len*3) 
+        q[7] = (quadrant[7][2] - font_size, quadrant[7][3] - font_size) 
+               
+        quadrant[8] = (quad_len*2, quad_len*3, quad_len*3, quad_len*3) 
+        q[8] = (quadrant[8][2] - font_size, quadrant[8][2] - font_size) 
+
+
+        for choice in self.save_turn: 
+            if choice[0] == 'X': 
+                canvas.create_text(q[choice[1]],  text='X', fill='blue', font=('times bold', font_size))
+            else: 
+                canvas.create_text(q[choice[1]],  text='O', fill='red', font=('times bold', font_size))
+
+        canvas.pack(fill='both', side='top')
+
 
         win.mainloop()
 
+    def setup_buttons(self): 
+
+        self.close = tk.Button(self.root, text='Close', command=self.root.quit)
+
+        self.solve = tk.Button(self.root, text='Solve',
+                               command=self.solve_button)
+
+        self.reset = tk.Button(self.root, text='Reset',
+                               command=self.reset_button)
+
+
+        self.close.grid(row=13, column=4) 
+        self.solve.grid(row=13, column=6) 
+        self.reset.grid(row=13, column=10) 
+
+            
 
     def reset_button(self):
         new_root = tk.Tk()
